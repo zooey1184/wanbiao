@@ -20,6 +20,12 @@ export default {
   }),
   watch: {
     $route: function(n, o) {
+      if (_czc) {
+        let location = window.location
+        let content_url = location.pathname + location.hash
+        let referer_url = '/'
+        _czc.push(['_trackPageview', content_url, referer_url])
+      }
       let rArr = this.routerList
       if (n.fullPath == "/") {
         this.routerList = ["/"]
@@ -40,14 +46,14 @@ export default {
         arr.push(a)
         if (a == n.fullPath) {
           // back
-          this.animate = 'bounce'
+          this.animate = 'fade'
           this.mode = 'in-out'
           this.routerList = arr
           sessionStorage.setItem('routerList', JSON.stringify(arr))
           return
         } else {
           // go
-          this.animate = 'bounce'
+          this.animate = 'fade'
           this.mode = 'in-out'
         }
       }
@@ -136,5 +142,11 @@ body {
 }
 .filter {
   filter: blur(5px);
+}
+#cnzz_stat_icon_1265026873 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 </style>

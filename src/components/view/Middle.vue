@@ -28,7 +28,7 @@ export default {
     },
   },
   created() {
-    // this.authFn()
+    this.authFn()
   }
 }
 </script>

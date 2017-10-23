@@ -6,10 +6,11 @@
       <img class="header_title" src="../../assets/header.png" alt="">
     </div>
     <div class="upload_pane">
-      <img class="upload_title" src="../../assets/upload_title.png" alt="">
+      <img class="upload_title" v-if="!showImg" src="../../assets/upload_title.png" alt="">
+      <img class="upload_title" v-else src="../../assets/upload_watch.png" alt="">
       <div class="upload_img_pane">
-        <img v-if="showImg" src="uploadImg" alt="">
-        <div class="upload_component">
+        <img class="upload_showImg" v-if="showImg" :src="uploadImg" alt="">
+        <div v-else class="upload_component">
           <img class="plus_img" v-if="showloading" src="../../assets/icon-plus-thin.png" alt="">
           <img class="plus_img" v-else src="../../assets/loading.gif" alt="">
           <input type="file" class="up_file" ref="upImg" @change="uploadFn">
@@ -17,7 +18,7 @@
       </div>
     </div>
 
-    <div class="btn_pane">
+    <div class="btn_pane" @click="testNowFn">
       <img class="btn_img" src="../../assets/btn.png" alt="">
       <p>开始测试</p>
     </div>
@@ -33,7 +34,7 @@ import {mapActions, mapGetters} from 'vuex'
 
 export default {
   data: ()=> ({
-    avatar: 'http://img.hb.aicdn.com/a28bc83d413930a3f22404cb03f0b842a8e9601b11131-vTisgv_fw658',
+    avatar: '',
     uploadImg: '',
     showImg: false,
     showloading: true,
@@ -53,14 +54,15 @@ export default {
             // 授权成功
             console.log(response.data)
             let token = response.data.data.token
+            let session = sessionStorage.getItem('imgUrl') || 'http://oxqznezzf.bkt.clouddn.com'
             this.infoData = {
-              avatar: response.data.data.avatar,
+              avatar: `${session}/${response.data.data.avatar}`,
               nickName: response.data.data.nickname
             }
             let infoDataJson = JSON.stringify(this.infoData)
-            this.avatar = response.data.data.avatar
+            this.avatar = `${session}/${response.data.data.avatar}`,
             this.set_data({
-              avatar: response.data.data.avatar,
+              avatar: `${session}/${response.data.data.avatar}`,
               nickName: response.data.data.nickname
             })
             localStorage.setItem('token', token)
@@ -70,6 +72,9 @@ export default {
           }else {
             // 授权失败
             console.log('授权失败')
+            if(!!localStorage.getItem('infoData')){
+              this.avatar = JSON.parse(localStorage.getItem('infoData')).avatar
+            }
           }
         })
         return
@@ -87,16 +92,24 @@ export default {
 				active.insertImg(a).then(res=> {
 					if(res.data.code==0){
 						this.showloading = true
+            this.showImg = true
             console.log(res.data)
             this.info = res.data.data
+            this.uploadImg = `${sessionStorage.getItem('imgUrl')}/${res.data.data.uploadPath}`
+            let jobObj = {
+              job: res.data.data.name,
+              img: res.data.data.path
+            }
+            sessionStorage.setItem('job', JSON.stringify(jobObj))
 					}else {
-						console.log('faile')
+            this.showImg = false
             Toast.info({
               message: "当前网络不佳",
               duration: 2000
             })
 					}
 				}).catch(()=> {
+          window.location.href = 'https://www.wbiao.cn'
           Toast.info({
             message: "当前网络不佳",
             duration: 2000
@@ -105,16 +118,32 @@ export default {
 				})
 			}else {
 				this.showloading = true
+        window.location.href = 'https://www.wbiao.cn'
 			}
-
-		}
+		},
+    testNowFn(){
+      if(this.showImg){
+        this.$router.push('/result')
+      }else {
+        Toast.info({
+          message: "请上传您的图片",
+          duration: 2000
+        })
+      }
+    }
   },
   created(){
     active.baseUrl().then((res)=> {
       console.log(res.data)
-      sessionStorage.setItem('imgUrl', res.data)
+      sessionStorage.setItem('imgUrl', res.data.data)
+    }).then(()=> {
+    	this.isAuth()
+    	if(!!localStorage.getItem('infoData')){
+	      this.avatar = JSON.parse(localStorage.getItem('infoData')).avatar
+	    }
     })
-    // this.isAuth()
+    
+    
   }
 
 }
@@ -133,17 +162,17 @@ export default {
 /*头像*/
 .header_pane {
   position: relative;
-  top: 50px;
+  top: 30px;
   width: 100%;
   text-align: center;
 }
 .avatar_img {
   position: absolute;
-  top: 4px;
+  top: 6px;
   left: 50%;
   transform: translate(-50%);
-  width: 90px;
-  height: 90px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
 }
 .header_title {
@@ -157,7 +186,7 @@ export default {
   transform: translate(-50%);
   height: 260px;
   background: #ddd;
-  top: 90px;
+  top: 70px;
   border-radius: 5px;
 }
 .upload_title {
@@ -175,6 +204,11 @@ export default {
   border-radius: 5px;
   left: 20px;
   top: 20px;
+}
+.upload_showImg {
+  width: 100%;
+  border-radius: 5px;
+  height: 100%;
 }
 .upload_component {
   width: 160px;
@@ -200,12 +234,48 @@ export default {
   bottom: 0;
   opacity: 0;
 }
+@media screen and (max-width: 320px) {
+  .upload_pane {
+    width: 280px;
+    height: 260px;
+    top: 35px;
+  }
+  .upload_img_pane {
+    width: 240px;
+  }
+  .avatar_img {
+    width: 74px;
+    height: 74px;
+    top: 5px;
+  }
+  .header_pane {
+    top: 5px;
+  }
+}
+@media screen and (min-width: 400px) {
+  .upload_pane {
+    width: 280px;
+    height: 260px;
+    top: 95px;
+  }
+  .upload_img_pane {
+    width: 240px;
+  }
+  .avatar_img {
+    width: 93px;
+    height: 93px;
+    top: 7px;
+  }
+  .header_pane {
+    top: 50px;
+  }
+}
 /*btn*/
 .btn_pane {
   position: absolute;
   width: 88%;
   left: 6%;
-  bottom: 50px;
+  bottom: 20px;
 }
 .btn_pane img {
   width: 100%;
