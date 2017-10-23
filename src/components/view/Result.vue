@@ -71,7 +71,7 @@ export default {
         headerImg.src = this.image
         ctx.drawImage(headerImg, 10, 18, 50, 50);
         ctx.fill();
-        
+
         outPath.crossOrigin = 'Anonymous'
         Toast.loading({
           message: "图片生成中",
@@ -84,7 +84,13 @@ export default {
           if(!!path){
             c = null
           }
-          return 
+          if(!sessionStorage.getItem('ios')){
+            sessionStorage.setItem('ios', 'y')
+            if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
+              window.location.reload()
+            }
+          }
+          return
         }, 2000)
       }, 20)
       }
@@ -107,10 +113,10 @@ export default {
     }
     if(!sessionStorage.getItem('job')){
       job = {
-        job: '逗笑师', 
+        job: '逗笑师',
         img: '360EBE057A7B5351DAB500619DC273E6.png'
       }
-    }else{ 
+    }else{
       job = JSON.parse(sessionStorage.getItem('job'))
     }
     this.nickName = info.nickName

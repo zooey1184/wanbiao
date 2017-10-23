@@ -109,7 +109,7 @@ export default {
             })
 					}
 				}).catch(()=> {
-          window.location.href = 'https://www.wbiao.cn'
+          // window.location.href = 'https://www.wbiao.cn'
           Toast.info({
             message: "当前网络不佳",
             duration: 2000
@@ -142,8 +142,8 @@ export default {
 	      this.avatar = JSON.parse(localStorage.getItem('infoData')).avatar
 	    }
     })
-    
-    
+
+
   }
 
 }
