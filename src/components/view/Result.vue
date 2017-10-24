@@ -75,7 +75,7 @@ export default {
         outPath.crossOrigin = 'Anonymous'
         Toast.loading({
           message: "图片生成中",
-          duration: 2000
+          duration: 1500
         })
         let path = ''
         path = c.toDataURL("image/png");
@@ -89,9 +89,11 @@ export default {
             if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { //判断iPhone|iPad|iPod|iOS
               window.location.reload()
             }
+          }else {
+            return
           }
           return
-        }, 2000)
+        }, 1500)
       }, 20)
       }
     },
@@ -126,6 +128,9 @@ export default {
   },
   mounted(){
     this.drawFn()
+  },
+  destroyed(){
+    sessionStorage.removeItem('ios')
   }
 }
 </script>
