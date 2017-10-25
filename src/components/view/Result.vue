@@ -63,7 +63,7 @@ export default {
         // 二维码
         let qrCode = new Image()
         qrCode.setAttribute('crossOrigin', 'anonymous')
-        qrCode.src = "http://ow9z7qnv9.bkt.clouddn.com/%E4%BA%8C%E7%BB%B4%E7%A0%81%E8%AF%86%E5%88%AB.png"
+        qrCode.src = "http://ow9z7qnv9.bkt.clouddn.com/qrCode_wanbiao1.png"
         ctx.drawImage(qrCode, 40, 330, 220, 150);
         // 头像
         let headerImg = new Image()
@@ -73,10 +73,14 @@ export default {
         ctx.fill();
 
         outPath.crossOrigin = 'Anonymous'
-        Toast.loading({
-          message: "图片生成中",
-          duration: 1500
-        })
+        if(!sessionStorage.getItem('loading')){
+          sessionStorage.setItem('loading', 'true')
+          Toast.loading({
+            message: "图片生成中",
+            duration: 2000
+          })
+        }
+
         let path = ''
         path = c.toDataURL("image/png");
         outPath.src = path
@@ -93,7 +97,7 @@ export default {
             return
           }
           return
-        }, 1500)
+        }, 2000)
       }, 20)
       }
     },
@@ -108,7 +112,7 @@ export default {
     if(!localStorage.getItem('infoData')){
       info = {
         nickName: '我',
-        avatar: 'http://oo6gk8wuu.bkt.clouddn.com/normal.png'
+        avatar: 'http://oxqznezzf.bkt.clouddn.com/440D4D72B59389ABEA35841B29CE92FA.png'
       }
     }else {
       info = JSON.parse(localStorage.getItem('infoData'))
@@ -131,6 +135,7 @@ export default {
   },
   destroyed(){
     sessionStorage.removeItem('ios')
+    sessionStorage.removeItem('loading')
   }
 }
 </script>

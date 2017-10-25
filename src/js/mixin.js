@@ -95,13 +95,13 @@ export default {
       });
     },
     // 调用分享
-    wxShare(title='title', desc='desc', link='http://5iqianshou.com/hongbao/#/middle', imgUrl='http://image-cdn.fengchuanshidai.com/activezq/share_icon.jpg') {
+    wxShare(title='title', desc='desc', link=window.location.href, imgUrl='http://image-cdn.fengchuanshidai.com/activezq/share_icon.jpg') {
       this.getSign().then(responce=> {
         if (responce.data.code == 0) {
           let data = responce.data.data
           wx.config({
             debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-            appId: 'wx1dfc72997585a1e5', // 必填，公众号的唯一标识
+            appId: 'wx895f65c207683d69', // 必填，公众号的唯一标识
             timestamp: data.timestamp, // 必填，生成签名的时间戳
             nonceStr: data.nonceStr, // 必填，生成签名的随机串
             signature: data.signature, // 必填，签名，见附录1
