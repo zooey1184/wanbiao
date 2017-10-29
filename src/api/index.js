@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // http://120.55.12.45/wbgame/api/common/qiniuBaseUrl
-const baseURL = `http://120.55.12.45/wbgame/`;
+const baseURL = `http://game.wbiao.com.cn/wbgame/`;
 const instance = axios.create({
 	baseURL,
 })

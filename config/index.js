@@ -28,9 +28,9 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // http://120.55.12.45/wbgame/api/common/qiniuBaseUrl
+      // http://game.wbiao.com.cn/wbgame/api/oauth/wechat/getAuthUrl
       '/wbgame': {
-        target: 'http://139.224.207.42',
+        target: 'http://game.wbiao.com.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/wbgame': '/wbgame'

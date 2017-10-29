@@ -30,9 +30,8 @@
       <div class="contain_pane">
         <p>图片上传失败，是否重新上传</p>
         <div class="btn_group">
-          <button class="btn btn-centain">
+          <button class="btn btn-centain" @click="showModal=false">
             确定
-            <input type="file" @click="uploadFnBtn" class="up_file" ref="fileImg" name="" value="">
           </button>
           <button class="btn" @click="cancleFn">取消</button>
         </div>
@@ -129,43 +128,6 @@ export default {
 					}
 				}).catch(()=> {
           this.$refs.upImg.value = null
-          this.showModal = true
-					this.showloading = true
-				})
-			}else {
-				this.showloading = true
-			}
-		},
-    uploadFnBtn(){
-			this.showloading = false
-      this.showModal = false
-			if(this.$refs.fileImg.files.length>0){
-				let file = this.$refs.fileImg.files[0]
-				let a = {
-					file: file
-				}
-				active.insertImg(a).then(res=> {
-					if(res.data.code==0){
-						this.showloading = true
-            this.showImg = true
-            console.log(res.data)
-            this.info = res.data.data
-            this.uploadImg = `${sessionStorage.getItem('imgUrl')}/${res.data.data.uploadPath}`
-            let jobObj = {
-              job: res.data.data.name,
-              img: res.data.data.path
-            }
-            sessionStorage.setItem('job', JSON.stringify(jobObj))
-					}else {
-            this.showImg = false
-            this.$refs.fileImg.value = null
-            Toast.info({
-              message: "当前网络不佳",
-              duration: 2000
-            })
-					}
-				}).catch(()=> {
-          this.$refs.fileImg.value = null
           this.showModal = true
 					this.showloading = true
 				})
