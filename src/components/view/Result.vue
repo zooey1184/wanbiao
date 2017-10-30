@@ -9,6 +9,7 @@
 
 <script>
 import Toast from 'v-toast'
+import mixin from '@/js/mixin'
 
 export default {
   data: ()=> ({
@@ -18,6 +19,7 @@ export default {
     jobImg: '',
     showImg: false
   }),
+  mixins: [mixin],
   methods: {
     canvasFn(){
       let ctx = this.$refs.canvas.getContext("2d");
@@ -28,19 +30,20 @@ export default {
       ctx.fillRect(0,0,600,1000);
       // 昵称
       ctx.fillStyle="#585361";
-      ctx.font="28px Arial";
-      // ctx.fillText(this.nickName,80,30);
+      ctx.font="28px 微软雅黑";
       ctx.fillText(this.nickName,160,60);
       // 适合职业
       ctx.fillStyle="#585361";
       ctx.font="36px 微软雅黑";
-      // ctx.fillText("适合的职业是",80,60);
       ctx.fillText("适合的职业是",160,120);
       // 匹配职业
       ctx.fillStyle="#47425e";
-      ctx.font="40px 微软雅黑";
-      // ctx.fillText(`“${this.job}”`,70,100);
-      ctx.fillText(`“${this.job}”`,140,200);
+      ctx.font="42px 微软雅黑";
+      ctx.fillText(`“${this.job}”`,116,200);
+      // 匹配职业
+      ctx.fillStyle="#b3b3b3";
+      ctx.font="20px 微软雅黑";
+      ctx.fillText(`图片来自网络`,450,626);
       // 职业
       let jobImg = new Image()
       jobImg.setAttribute('crossOrigin', 'anonymous')
@@ -135,6 +138,9 @@ export default {
   },
   mounted(){
     this.drawFn()
+    setTimeout(()=> {
+      this.wxShare()
+    }, 1500)
   },
   destroyed(){
     sessionStorage.removeItem('ios')

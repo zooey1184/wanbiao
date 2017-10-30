@@ -159,6 +159,10 @@ export default {
     	if(!!localStorage.getItem('infoData')){
 	      this.avatar = JSON.parse(localStorage.getItem('infoData')).avatar
 	    }
+    }).then(()=> {
+      setTimeout(()=> {
+        this.wxShare()
+      }, 1500)
     })
   }
 
@@ -220,11 +224,15 @@ export default {
   border-radius: 5px;
   left: 20px;
   top: 20px;
+  overflow-y: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .upload_showImg {
   width: 100%;
   border-radius: 5px;
-  height: 100%;
+  /*height: 100%;*/
 }
 .upload_component {
   width: 160px;

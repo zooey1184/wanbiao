@@ -95,7 +95,7 @@ export default {
       });
     },
     // 调用分享
-    wxShare(title='title', desc='desc', link=window.location.href, imgUrl='http://image-cdn.fengchuanshidai.com/activezq/share_icon.jpg') {
+    wxShare(title='一个很准的职业测试', desc='你的手表暴露了一切，试试你适合什么职业', link="http://game.wbiao.com.cn/#/", imgUrl='http://ow9z7qnv9.bkt.clouddn.com/watch.png') {
       this.getSign().then(responce=> {
         if (responce.data.code == 0) {
           let data = responce.data.data
@@ -107,7 +107,7 @@ export default {
             signature: data.signature, // 必填，签名，见附录1
             jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
           });
-          this.wxshare( title, desc, link, 'http://image-cdn.fengchuanshidai.com/activezq/share_icon1.jpg', function() {
+          this.wxshare( title, desc, link, 'http://ow9z7qnv9.bkt.clouddn.com/watch.png', function() {
               console.log("分享成功");
             }
           );
